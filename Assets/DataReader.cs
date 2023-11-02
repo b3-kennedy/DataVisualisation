@@ -5,12 +5,16 @@ using System.IO;
 using TMPro;
 using System;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 //[System.Serializable]
 
 
 public class DataReader : MonoBehaviour
 {
+
+    public static DataReader Instance;
+
     string path = "Assets/Resources/Earthquake_data.csv";
     string[] lines;
 
@@ -32,23 +36,29 @@ public class DataReader : MonoBehaviour
     public Transform earth;
     public Transform marker;
 
-    public int minYear;
-    public int MaxYear;
 
     public Transform dataParent;
-
-
-
-
 
     Vector3 lastPos = Vector3.zero;
 
     public float earthRadius = 41;
 
+    [Header("Filters")]
+    public int minYear;
+    public int maxYear;
+
+    public float minMag;
+    public float maxMag;
+
+    public enum AlertType {GREEN, YELLOW, ORANGE, RED, ALL};
+    public AlertType alertType = AlertType.ALL;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Instance = this;
+
 
         if (File.Exists(path))
         {
@@ -123,22 +133,16 @@ public class DataReader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        YearFilter();
+        Filters();
+
+
     }
 
-    void YearFilter()
+    void Filters()
     {
-        for (int i = 0; i < dataParent.childCount; i++) 
+        for (int i = 0; i < dataParent.childCount; i++)
         {
-            if(ConvertToInt(GetYearFromDate(dataParent.GetChild(i).GetComponent<DataHolder>().date)) <= minYear)
-            {
-                dataParent.GetChild(i).gameObject.SetActive(false);
-            }
-
-            if (ConvertToInt(GetYearFromDate(dataParent.GetChild(i).GetComponent<DataHolder>().date)) >= MaxYear)
-            {
-                dataParent.GetChild(i).gameObject.SetActive(false);
-            }
+            dataParent.GetChild(i).GetComponent<DataHolder>().CheckFilter();
         }
     }
 
@@ -194,7 +198,7 @@ public class DataReader : MonoBehaviour
         return earth.transform.position + markerPos;
     }
 
-    string GetYearFromDate(string date)
+    public string GetYearFromDate(string date)
     {
         var dateSplit = date.Split('-');
         var yearSplit = dateSplit[dateSplit.Length-1].Split(" ");
@@ -202,12 +206,12 @@ public class DataReader : MonoBehaviour
         return yearSplit[0];
     }
 
-    int ConvertToInt(string str)
+    public int ConvertToInt(string str)
     {
         return int.Parse(str);
     }
 
-    float ConvertToFloat(string str)
+    public float ConvertToFloat(string str)
     {
         return float.Parse(str);
     }
