@@ -51,7 +51,7 @@ public class DataHolder : MonoBehaviour
 
     bool CheckMagnitudeFilter()
     {
-        if(mag >= reader.minMag && mag <= reader.maxMag)
+        if(mag >= reader.minMagnitude && mag <= reader.maxMagnitude)
         {
             return true;
         }

@@ -47,8 +47,8 @@ public class DataReader : MonoBehaviour
     public int minYear;
     public int maxYear;
 
-    public float minMag;
-    public float maxMag;
+    public float minMagnitude;
+    public float maxMagnitude;
 
     public enum AlertType {GREEN, YELLOW, ORANGE, RED, ALL};
     public AlertType alertType = AlertType.ALL;

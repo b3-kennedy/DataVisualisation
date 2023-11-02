@@ -483,8 +483,8 @@ MonoBehaviour:
   earthRadius: 20.5
   minYear: 2000
   maxYear: 2020
-  minMag: 5
-  maxMag: 9
+  minMagnitude: 5
+  maxMagnitude: 9
   alertType: 4
 --- !u!4 &1594643813
 Transform:
