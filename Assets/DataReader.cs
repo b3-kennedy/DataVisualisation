@@ -4,82 +4,9 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using System;
+using UnityEngine.UIElements;
 
 //[System.Serializable]
-public class Data
-{
-    public Data(string ti,string mag, string dat, string cd, string mm, string al, string ts, string si, string ne, string ns,
-        string dm, string ga, string ma, string de, string la, string lo, string loc, string con, string cou)
-    {
-        title = ti;
-        magnitude = mag;
-        date = dat;
-        cdi = cd;
-        mmi = mm;
-        alert = al;
-        tsunami = ts;
-        sig = si;
-        net = ne;
-        nst = ns;
-        dmin = dm;
-        gap = ga;
-        magType = ma;
-        depth = de;
-        latitude = la;
-        longitude = lo;
-        location = loc;
-        continent = con;
-        country = cou;
-
-    }
-
-    //public Data(string ti, string mag, string dat, string cd, string mm, string al, string ts, string si, string ne, string ns,
-    //string dm, string ga, string ma, string de, string la, string lo, string loc, string con, string cou)
-    //{
-    //    title = ti;
-    //    magnitude = ConvertToFloat(mag);
-    //    date = dat;
-    //    cdi = ConvertToInt(cd);
-    //    mmi = ConvertToInt(mm);
-    //    alert = al;
-    //    tsunami = ts;
-    //    sig = ConvertToInt(si);
-    //    net = ne;
-    //    nst = ConvertToInt(ns);
-    //    dmin = ConvertToFloat(dm);
-    //    gap = ConvertToInt(ga);
-    //    magType = ma;
-    //    depth = ConvertToFloat(de);
-    //    latitude = ConvertToFloat(la);
-    //    longitude = ConvertToFloat(lo);
-    //    location = loc;
-    //    continent = con;
-    //    country = cou;
-
-    //}
-
-
-    public string title;
-    public string magnitude;
-    public string date;
-    public string cdi;
-    public string mmi;
-    public string alert;
-    public string tsunami;
-    public string sig;
-    public string net;
-    public string nst;
-    public string dmin;
-    public string gap;
-    public string magType;
-    public string depth;
-    public string latitude;
-    public string longitude;
-    public string location;
-    public string continent;
-    public string country;
-}
-
 
 
 public class DataReader : MonoBehaviour
@@ -105,7 +32,18 @@ public class DataReader : MonoBehaviour
     public Transform earth;
     public Transform marker;
 
+    public int minYear;
+    public int MaxYear;
+
+    public Transform dataParent;
+
+
+
+
+
     Vector3 lastPos = Vector3.zero;
+
+    public float earthRadius = 41;
 
     // Start is called before the first frame update
     void Start()
@@ -174,31 +112,94 @@ public class DataReader : MonoBehaviour
                 sp.GetComponent<Renderer>().material.color = Color.red;
             }
 
-            Vector3 position = CalculatePositionOnShpere(ConvertToFloat(data[i].latitude), ConvertToFloat(data[i].longitude), earth.localScale.x / 2);
-            Instantiate(marker, position, Quaternion.identity);
 
+            PositionMarkers(i);
         }
 
-
+        Debug.Log(GetYearFromDate(data[0].date));
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        YearFilter();
     }
 
-    Vector3 CalculatePositionOnShpere(float lat, float lon, double radius)
+    void YearFilter()
     {
-        float rad = (float)radius;
-        float phi = (float)((90 - lat) * (Math.PI / 180));
-        float theta = (float)((lon + 180) * (Math.PI / 180));
-        float x = -((rad) * Mathf.Sin(phi) * Mathf.Cos(theta));
-        float z = ((rad) * Mathf.Sin(phi) * Mathf.Sin(theta));
-        float y = ((rad) * Mathf.Cos(phi));
+        for (int i = 0; i < dataParent.childCount; i++) 
+        {
+            if(ConvertToInt(GetYearFromDate(dataParent.GetChild(i).GetComponent<DataHolder>().date)) <= minYear)
+            {
+                dataParent.GetChild(i).gameObject.SetActive(false);
+            }
 
-        return earth.transform.position + new Vector3(x,y,z);
+            if (ConvertToInt(GetYearFromDate(dataParent.GetChild(i).GetComponent<DataHolder>().date)) >= MaxYear)
+            {
+                dataParent.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void PositionMarkers(int index)
+    {
+
+        Vector3 position = CalculatePositionOnShpere(ConvertToFloat(data[index].latitude), ConvertToFloat(data[index].longitude));
+        Transform m = Instantiate(marker, position, Quaternion.identity);
+
+        m.SetParent(dataParent);
+
+        var markerData = m.GetComponent<DataHolder>();
+        markerData.title = data[index].title;
+        markerData.magnitude = data[index].magnitude;
+        markerData.date = data[index].date;
+        markerData.cdi = data[index].cdi;
+        markerData.mmi = data[index].mmi;
+        markerData.alert = data[index].alert;
+        markerData.tsunami = data[index].tsunami;
+        markerData.sig = data[index].sig;
+        markerData.net = data[index].net;
+        markerData.nst = data[index].nst;
+        markerData.dmin = data[index].dmin;
+        markerData.gap = data[index].gap;
+        markerData.magType = data[index].magType;
+        markerData.depth = data[index].depth;
+        markerData.latitude = data[index].latitude;
+        markerData.longitude = data[index].longitude;
+        markerData.location = data[index].location;
+        markerData.continent = data[index].continent;
+        markerData.country = data[index].country;
+
+    }
+
+    Vector3 CalculatePositionOnShpere(float latitude, float longitude)
+    {
+        double latitude_rad = latitude * Math.PI / 180;
+        double longitude_rad = longitude * Math.PI / 180;
+
+        double zPos = earthRadius * Math.Cos(latitude_rad) * Math.Cos(longitude_rad);
+        double xPos = -earthRadius * Math.Cos(latitude_rad) * Math.Sin(longitude_rad);
+        double yPos = earthRadius * Math.Sin(latitude_rad);
+
+
+        Vector3 markerPos;
+
+        markerPos.x = (float)xPos;
+        markerPos.y = (float)yPos;
+        markerPos.z = (float)zPos;
+
+
+
+        return earth.transform.position + markerPos;
+    }
+
+    string GetYearFromDate(string date)
+    {
+        var dateSplit = date.Split('-');
+        var yearSplit = dateSplit[dateSplit.Length-1].Split(" ");
+
+        return yearSplit[0];
     }
 
     int ConvertToInt(string str)
