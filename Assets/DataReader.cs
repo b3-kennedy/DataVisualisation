@@ -89,38 +89,38 @@ public class DataReader : MonoBehaviour
         {
 
 
-            if (i % width == 0)
-            {
-                y -= 15;
-                lastPos = Vector3.zero;
-            }
+            //if (i % width == 0)
+            //{
+            //    y -= 15;
+            //    lastPos = Vector3.zero;
+            //}
 
 
-            GameObject sp = Instantiate(sphere, new Vector3(lastPos.x + 32, y, 0), Quaternion.identity);
-            sp.transform.localScale = new Vector3(ConvertToFloat(data[i].magnitude), ConvertToFloat(data[i].magnitude), ConvertToFloat(data[i].magnitude));
-            lastMag = ConvertToFloat(data[i].magnitude);
-            lastPos = sp.transform.position;
+            //GameObject sp = Instantiate(sphere, new Vector3(lastPos.x + 32, y, 0), Quaternion.identity);
+            //sp.transform.localScale = new Vector3(ConvertToFloat(data[i].magnitude), ConvertToFloat(data[i].magnitude), ConvertToFloat(data[i].magnitude));
+            //lastMag = ConvertToFloat(data[i].magnitude);
+            //lastPos = sp.transform.position;
 
-            GameObject txt = Instantiate(text, new Vector3(sp.transform.position.x, (sp.transform.position.y + ConvertToFloat(data[i].magnitude) / 2) + 3, sp.transform.position.z), Quaternion.identity);
-            TextMeshPro t = txt.GetComponent<TextMeshPro>();
-            t.text = data[i].location + "\n" + "Magnitude: " + data[i].magnitude;
+            //GameObject txt = Instantiate(text, new Vector3(sp.transform.position.x, (sp.transform.position.y + ConvertToFloat(data[i].magnitude) / 2) + 3, sp.transform.position.z), Quaternion.identity);
+            //TextMeshPro t = txt.GetComponent<TextMeshPro>();
+            //t.text = data[i].location + "\n" + "Magnitude: " + data[i].magnitude;
 
-            if (data[i].alert == "green")
-            {
-                sp.GetComponent<Renderer>().material.color = Color.green;
-            }
-            else if (data[i].alert == "yellow")
-            {
-                sp.GetComponent<Renderer>().material.color = Color.yellow;
-            }
-            else if (data[i].alert == "orange")
-            {
-                sp.GetComponent<Renderer>().material.color = Color.yellow + Color.red;
-            }
-            else if (data[i].alert == "red")
-            {
-                sp.GetComponent<Renderer>().material.color = Color.red;
-            }
+            //if (data[i].alert == "green")
+            //{
+            //    sp.GetComponent<Renderer>().material.color = Color.green;
+            //}
+            //else if (data[i].alert == "yellow")
+            //{
+            //    sp.GetComponent<Renderer>().material.color = Color.yellow;
+            //}
+            //else if (data[i].alert == "orange")
+            //{
+            //    sp.GetComponent<Renderer>().material.color = Color.yellow + Color.red;
+            //}
+            //else if (data[i].alert == "red")
+            //{
+            //    sp.GetComponent<Renderer>().material.color = Color.red;
+            //}
 
 
             PositionMarkers(i);
