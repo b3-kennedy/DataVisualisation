@@ -11,7 +11,7 @@ public class ZoomController : MonoBehaviour
 
     void Update()
     {
-        float zoomValue = zoomSlider.value;
+        float zoomValue = 1-zoomSlider.value;
 
         // Kamera yakınlaştırma ve uzaklaştırma işlemleri
         mainCamera.fieldOfView = Mathf.Lerp(20, 60, zoomValue);
