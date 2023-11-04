@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using EasyUI.Dialogs;
 
 public class DataHolder : MonoBehaviour
 {
@@ -28,17 +30,37 @@ public class DataHolder : MonoBehaviour
     int year;
     float mag;
 
+    string popUpTitle;
+    string popUpMessage;
+    // public PopUpController popUp;
+
     private void Start()
     {
         reader = DataReader.Instance;
         year = reader.ConvertToInt(reader.GetYearFromDate(date));
         mag = reader.ConvertToFloat(magnitude);
-    }
+        string ts = (tsunami=="1"? "yes" : "no") ;
 
+        popUpTitle = country +" earthquake in "+ year;
+        popUpMessage = "Magnitude : "+mag+ System.Environment.NewLine + "Alert : "+ (!string.IsNullOrEmpty(alert) ? alert : "N/A") +  System.Environment.NewLine + "Location : "+ location +  System.Environment.NewLine + "Depth : "+ depth+  System.Environment.NewLine + "Tsunami : "+ ts;
+        
+        
+    }
+    private void OnMouseDown() {
+        Debug.Log(popUpTitle);
+        Debug.Log(popUpMessage);
+        PopUp.Instance.SetTitle(popUpTitle).SetMessage(popUpMessage).Show();
+        
+        
+        
+    }
+    
+    
     public void CheckFilter()
     {
         gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter());
     }
+    
 
     bool CheckYearFilter()
     {

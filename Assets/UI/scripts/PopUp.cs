@@ -25,12 +25,13 @@ namespace EasyUI.Dialogs{
 
          void Awake() {
             Instance = this;
-
+            Debug.Log("pop up awake");
             closeUIButton.onClick.RemoveAllListeners();
             closeUIButton.onClick.AddListener(Hide);
         }
         public PopUp SetTitle(string t){
             dialog.title = t ;
+            Debug.Log(t);
             return Instance;
         }
         public PopUp SetMessage(string m){
