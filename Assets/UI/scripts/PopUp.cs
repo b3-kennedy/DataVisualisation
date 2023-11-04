@@ -25,7 +25,6 @@ namespace EasyUI.Dialogs{
 
          void Awake() {
             Instance = this;
-            Debug.Log("pop up awake");
             closeUIButton.onClick.RemoveAllListeners();
             closeUIButton.onClick.AddListener(Hide);
         }
@@ -44,6 +43,7 @@ namespace EasyUI.Dialogs{
             messageUIText.text = dialog.message;
 
             canvas.SetActive(true);
+            Debug.Log("canvas activated");
             
         }
 

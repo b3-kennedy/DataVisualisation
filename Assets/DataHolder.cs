@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using EasyUI.Dialogs;
 using UnityEngine.Rendering;
+using reversegeocoding;
+using System;
+using System.IO;
+using System.Net;
+using System.Runtime.Serialization.Json;
 
 
 public class DataHolder : MonoBehaviour
@@ -41,20 +46,24 @@ public class DataHolder : MonoBehaviour
         reader = DataReader.Instance;
         year = reader.ConvertToInt(reader.GetYearFromDate(date));
         mag = reader.ConvertToFloat(magnitude);
-        string ts = (tsunami=="1"? "yes" : "no") ;
-
-        popUpTitle = country +" earthquake in "+ year;
-        popUpMessage = "Magnitude : "+mag+ System.Environment.NewLine + "Alert : "+ (!string.IsNullOrEmpty(alert) ? alert : "N/A") +  System.Environment.NewLine + "Location : "+ location +  System.Environment.NewLine + "Depth : "+ depth+  System.Environment.NewLine + "Tsunami : "+ ts;
+        
+        RootObject rootObject=getAddress(Convert.ToDouble(latitude), Convert.ToDouble(longitude));
+        string convertedLocation= rootObject.city +","+ rootObject.country;
+        Debug.Log(rootObject.city);
+        // popUpTitle = convertedLocation;
+        popUpTitle = country +" - Earthquake in "+ year;
+        popUpMessage = "⦿ Magnitude : "+mag+ System.Environment.NewLine +
+         "⦿ Alert : "+ (!string.IsNullOrEmpty(alert) ? alert : "N/A") +  System.Environment.NewLine +
+          "⦿ Location : "+ location +  System.Environment.NewLine +
+           "⦿ Depth : "+ depth+  System.Environment.NewLine +
+            "⦿ Tsunami : "+ (tsunami=="1"? "yes" : "no");
         
         
     }
     private void OnMouseDown() {
-        Debug.Log(popUpTitle);
-        Debug.Log(popUpMessage);
+   
         PopUp.Instance.SetTitle(popUpTitle).SetMessage(popUpMessage).Show();
-        
-        
-        
+         
     }
     
     
@@ -134,5 +143,15 @@ public class DataHolder : MonoBehaviour
                 break;
         }
         return false;
+    }
+    RootObject getAddress(double lat,double lon)
+    {
+        WebClient webClient = new WebClient();
+        webClient.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+        webClient.Headers.Add("Referer", "http://www.microsoft.com");
+        var jsonData = webClient.DownloadData("http://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+lon);
+        DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(RootObject));
+        RootObject rootObject = (RootObject)ser.ReadObject(new MemoryStream(jsonData));
+        return rootObject;
     }
 }
