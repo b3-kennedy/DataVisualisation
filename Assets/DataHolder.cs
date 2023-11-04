@@ -46,19 +46,19 @@ public class DataHolder : MonoBehaviour
         reader = DataReader.Instance;
         year = reader.ConvertToInt(reader.GetYearFromDate(date));
         mag = reader.ConvertToFloat(magnitude);
-        
-        RootObject rootObject=getAddress(Convert.ToDouble(latitude), Convert.ToDouble(longitude));
-        string convertedLocation= rootObject.city +","+ rootObject.country;
-        Debug.Log(rootObject.city);
-        // popUpTitle = convertedLocation;
-        popUpTitle = country +" - Earthquake in "+ year;
-        popUpMessage = "⦿ Magnitude : "+mag+ System.Environment.NewLine +
-         "⦿ Alert : "+ (!string.IsNullOrEmpty(alert) ? alert : "N/A") +  System.Environment.NewLine +
-          "⦿ Location : "+ location +  System.Environment.NewLine +
-           "⦿ Depth : "+ depth+  System.Environment.NewLine +
-            "⦿ Tsunami : "+ (tsunami=="1"? "yes" : "no");
-        
-        
+
+        //RootObject rootObject=getAddress(Convert.ToDouble(latitude), Convert.ToDouble(longitude));
+        //string convertedLocation= rootObject.city +","+ rootObject.country;
+        //Debug.Log(rootObject.city);
+        //// popUpTitle = convertedLocation;
+        popUpTitle = country + " - Earthquake in " + year;
+        popUpMessage = "⦿ Magnitude : " + mag + System.Environment.NewLine +
+         "⦿ Alert : " + (!string.IsNullOrEmpty(alert) ? alert : "N/A") + System.Environment.NewLine +
+          "⦿ Location : " + location + System.Environment.NewLine +
+           "⦿ Depth : " + depth + System.Environment.NewLine +
+            "⦿ Tsunami : " + (tsunami == "1" ? "yes" : "no");
+
+
     }
     private void OnMouseDown() {
    

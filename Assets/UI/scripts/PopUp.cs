@@ -41,7 +41,7 @@ namespace EasyUI.Dialogs{
         public void Show(){
             titleUIText.text = dialog.title;
             messageUIText.text = dialog.message;
-
+            Debug.Log(canvas);
             canvas.SetActive(true);
             Debug.Log("canvas activated");
             
