@@ -29,7 +29,7 @@ namespace EasyUI.Dialogs{
             closeUIButton.onClick.AddListener(Hide);
         }
         public PopUp SetTitle(string t){
-            dialog.title = t ;
+            // dialog.title = t ;
             Debug.Log(t);
             return Instance;
         }

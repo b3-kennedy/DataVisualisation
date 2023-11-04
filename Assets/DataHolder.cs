@@ -52,10 +52,11 @@ public class DataHolder : MonoBehaviour
         //Debug.Log(rootObject.city);
         //// popUpTitle = convertedLocation;
         popUpTitle = title;
+        string[] locationFromTitle = title.Split('-');
         popUpMessage =  "⦿ Year : " + year + System.Environment.NewLine +
         "⦿ Magnitude : " + mag + System.Environment.NewLine +
          "⦿ Alert : " + (!string.IsNullOrEmpty(alert) ? alert : "N/A") + System.Environment.NewLine +
-          "⦿ Location : " + location + System.Environment.NewLine +
+          "⦿ Location : " + locationFromTitle[1] + System.Environment.NewLine +
            "⦿ Depth : " + depth + System.Environment.NewLine +
             "⦿ Tsunami : " + (tsunami == "1" ? "yes" : "no");
 
@@ -63,7 +64,7 @@ public class DataHolder : MonoBehaviour
     }
     private void OnMouseDown() {
    
-        PopUp.Instance.SetTitle(popUpTitle).SetMessage(popUpMessage).Show();
+        PopUp.Instance.SetMessage(popUpMessage).Show();
          
     }
     
