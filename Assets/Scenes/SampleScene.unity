@@ -1188,6 +1188,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7512753876010318598, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545766953596853645, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 58b647c5b2ec4184e9a07a561cdf0644, type: 3}
+    - target: {fileID: 7545766953596853645, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7715820122148069226, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
       propertyPath: m_Name
       value: CanvasParent
@@ -1196,6 +1208,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8473715758341414097, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 58b647c5b2ec4184e9a07a561cdf0644, type: 3}
     - target: {fileID: 8969802187614039861, guid: 694c7061e15f05d489bedd3eedf5225b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -5.2977295

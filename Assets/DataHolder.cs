@@ -51,8 +51,9 @@ public class DataHolder : MonoBehaviour
         //string convertedLocation= rootObject.city +","+ rootObject.country;
         //Debug.Log(rootObject.city);
         //// popUpTitle = convertedLocation;
-        popUpTitle = country + " - Earthquake in " + year;
-        popUpMessage = "⦿ Magnitude : " + mag + System.Environment.NewLine +
+        popUpTitle = title;
+        popUpMessage =  "⦿ Year : " + year + System.Environment.NewLine +
+        "⦿ Magnitude : " + mag + System.Environment.NewLine +
          "⦿ Alert : " + (!string.IsNullOrEmpty(alert) ? alert : "N/A") + System.Environment.NewLine +
           "⦿ Location : " + location + System.Environment.NewLine +
            "⦿ Depth : " + depth + System.Environment.NewLine +
