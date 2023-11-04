@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 954fcb37dc65b134a84aa220e7e11c78, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -850,9 +850,10 @@ MonoBehaviour:
   dataParent: {fileID: 992968602}
   earthRadius: 20.5
   minYear: 2000
-  maxYear: 2020
+  maxYear: 2022
   minMagnitude: 5
-  maxMagnitude: 9
+  maxMagnitude: 10
+  tsunami: 2
   alertType: 4
 --- !u!4 &1594643813
 Transform:

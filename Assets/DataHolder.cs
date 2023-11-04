@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using EasyUI.Dialogs;
+using UnityEngine.Rendering;
+
 
 public class DataHolder : MonoBehaviour
 {
@@ -58,7 +60,7 @@ public class DataHolder : MonoBehaviour
     
     public void CheckFilter()
     {
-        gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter());
+        gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter() && CheckTsunamiFilter());
     }
     
 
@@ -74,6 +76,24 @@ public class DataHolder : MonoBehaviour
     bool CheckMagnitudeFilter()
     {
         if(mag >= reader.minMagnitude && mag <= reader.maxMagnitude)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    bool CheckTsunamiFilter()
+    {
+        if(reader.tsunami == DataReader.Tsunami.YES && tsunami == "1")
+        {
+            return true;
+        }
+        else if(reader.tsunami == DataReader.Tsunami.ALL)
+        {
+            return true;
+        }
+        else if(reader.tsunami == DataReader.Tsunami.NO && tsunami == "0")
         {
             return true;
         }
