@@ -100,7 +100,7 @@ public class DataReader : MonoBehaviour
 
     }
 
-    void Filters()
+    public void Filters()
     {
         for (int i = 0; i < dataParent.childCount; i++)
         {
