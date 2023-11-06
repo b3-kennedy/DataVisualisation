@@ -11,12 +11,20 @@ public class UIController : MonoBehaviour
     public Dropdown alertTypeDropdown;
     public DataReader dataReader;
     public Button tsunami;
+    public TextMeshProUGUI minMag;
+    public TextMeshProUGUI maxMag;
+    public TextMeshProUGUI minYear;
+    public TextMeshProUGUI maxYear;
 
-  
 
 
-private void Start()
+
+    private void Start()
     {
+        Debug.Log(dataReader);
+
+        Debug.Log(minYearSlider);
+
         dataReader.minYear = (int)minYearSlider.value;
         dataReader.maxYear = (int)maxYearSlider.value;
         dataReader.minMagnitude = minMagnitudeSlider.value;
@@ -27,11 +35,23 @@ private void Start()
     public void OnMinYearValueChanged(float value)
     {
         dataReader.minYear = (int)value;
+        if (dataReader.minYear > dataReader.maxYear)
+        {
+            dataReader.maxYear = (int)value;
+            maxYearSlider.value = (int)value;
+
+        }
     }
 
     public void OnMaxYearValueChanged(float value)
     {
         dataReader.maxYear = (int)value;
+        if (dataReader.maxYear < dataReader.minYear)
+        {
+            dataReader.minYear = (int)value;
+            minYearSlider.value = (int)value;
+
+        }
     }
 
     public void OnMinMagnitudeValueChanged(float value)
@@ -51,7 +71,17 @@ private void Start()
         {
             dataReader.minMagnitude = value;
             minMagnitudeSlider.value = value;
+            
         }
+    }
+
+    private void Update()
+    {
+        maxMag.text = "Max Magnitude: " + Mathf.Round(dataReader.maxMagnitude * 10)/10;
+        minMag.text = "Min Magnitude: " + Mathf.Round(dataReader.minMagnitude * 10)/10;
+
+        minYear.text = "Min Year: " + dataReader.minYear;
+        maxYear.text = "Max Year: " + dataReader.maxYear;
     }
 
     public void ShowOnlyTsunamiEarthquakes()
@@ -67,24 +97,28 @@ private void Start()
 
     private void SetAlertType()
     {
-        switch (alertTypeDropdown.value)
+        if(alertTypeDropdown != null)
         {
-            case 0:
-                dataReader.alertType = DataReader.AlertType.GREEN;
-                break;
-            case 1:
-                dataReader.alertType = DataReader.AlertType.YELLOW;
-                break;
-            case 2:
-                dataReader.alertType = DataReader.AlertType.ORANGE;
-                break;
-            case 3:
-                dataReader.alertType = DataReader.AlertType.RED;
-                break;
-            default:
-                dataReader.alertType = DataReader.AlertType.ALL;
-                break;
+            switch (alertTypeDropdown.value)
+            {
+                case 0:
+                    dataReader.alertType = DataReader.AlertType.GREEN;
+                    break;
+                case 1:
+                    dataReader.alertType = DataReader.AlertType.YELLOW;
+                    break;
+                case 2:
+                    dataReader.alertType = DataReader.AlertType.ORANGE;
+                    break;
+                case 3:
+                    dataReader.alertType = DataReader.AlertType.RED;
+                    break;
+                default:
+                    dataReader.alertType = DataReader.AlertType.ALL;
+                    break;
+            }
         }
+
     }
 
     public void ApplyFilters()

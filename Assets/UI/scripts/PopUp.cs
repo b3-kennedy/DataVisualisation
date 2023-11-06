@@ -12,15 +12,17 @@ namespace EasyUI.Dialogs{
 
     public class PopUp : MonoBehaviour
     {
-        [SerializeField] GameObject canvas;
-        [SerializeField] Text messageUIText;
-        [SerializeField] Button closeUIButton;
+        public GameObject canvas;
+        public Text messageUIText;
+        public Button closeUIButton;
 
          Dialog dialog = new Dialog();
 
         public static PopUp Instance;
 
          void Awake() {
+
+            Debug.Log(closeUIButton);
             Instance = this;
             closeUIButton.onClick.RemoveAllListeners();
             closeUIButton.onClick.AddListener(Hide);
