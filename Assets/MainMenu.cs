@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public void StartGame()
-
     {
+        Debug.Log("load");
         SceneManager.LoadScene(1);
 
     }
