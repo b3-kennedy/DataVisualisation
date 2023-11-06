@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 public class Spin : MonoBehaviour
 {
 
-    [SerializeField] private InputAction pressed,axis;
-    [SerializeField] private float speed = 0.35f;
+    [UnityEngine.SerializeField] private InputAction pressed,axis;
+    [UnityEngine.SerializeField] private float speed = 0.35f;
 
     private bool rotateAllowed;
 

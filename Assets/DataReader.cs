@@ -50,6 +50,9 @@ public class DataReader : MonoBehaviour
     public float minMagnitude;
     public float maxMagnitude;
 
+    public enum Tsunami {YES, NO, ALL};
+    public Tsunami tsunami = Tsunami.ALL;
+
     public enum AlertType {GREEN, YELLOW, ORANGE, RED, ALL};
     public AlertType alertType = AlertType.ALL;
 
@@ -138,7 +141,7 @@ public class DataReader : MonoBehaviour
 
     }
 
-    void Filters()
+    public void Filters()
     {
         for (int i = 0; i < dataParent.childCount; i++)
         {

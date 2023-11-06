@@ -1,6 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using EasyUI.Dialogs;
+using UnityEngine.Rendering;
+using reversegeocoding;
+using System;
+using System.IO;
+using System.Net;
+using System.Runtime.Serialization.Json;
+
 
 public class DataHolder : MonoBehaviour
 {
@@ -28,17 +37,43 @@ public class DataHolder : MonoBehaviour
     int year;
     float mag;
 
+    string popUpTitle;
+    string popUpMessage;
+    // public PopUpController popUp;
+
     private void Start()
     {
         reader = DataReader.Instance;
         year = reader.ConvertToInt(reader.GetYearFromDate(date));
         mag = reader.ConvertToFloat(magnitude);
-    }
 
+        //RootObject rootObject=getAddress(Convert.ToDouble(latitude), Convert.ToDouble(longitude));
+        //string convertedLocation= rootObject.city +","+ rootObject.country;
+        //Debug.Log(rootObject.city);
+        //// popUpTitle = convertedLocation;
+        popUpTitle = title;
+        string[] locationFromTitle = title.Split('-');
+        popUpMessage =  "⦿ Year : " + year + System.Environment.NewLine +
+        "⦿ Magnitude : " + mag + System.Environment.NewLine +
+         "⦿ Alert : " + (!string.IsNullOrEmpty(alert) ? alert : "N/A") + System.Environment.NewLine +
+          "⦿ Location : " + locationFromTitle[1] + System.Environment.NewLine +
+           "⦿ Depth : " + depth + System.Environment.NewLine +
+            "⦿ Tsunami : " + (tsunami == "1" ? "yes" : "no");
+
+
+    }
+    private void OnMouseDown() {
+   
+        PopUp.Instance.SetMessage(popUpMessage).Show();
+         
+    }
+    
+    
     public void CheckFilter()
     {
-        gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter());
+        gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter() && CheckTsunamiFilter());
     }
+    
 
     bool CheckYearFilter()
     {
@@ -52,6 +87,24 @@ public class DataHolder : MonoBehaviour
     bool CheckMagnitudeFilter()
     {
         if(mag >= reader.minMagnitude && mag <= reader.maxMagnitude)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    bool CheckTsunamiFilter()
+    {
+        if(reader.tsunami == DataReader.Tsunami.YES && tsunami == "1")
+        {
+            return true;
+        }
+        else if(reader.tsunami == DataReader.Tsunami.ALL)
+        {
+            return true;
+        }
+        else if(reader.tsunami == DataReader.Tsunami.NO && tsunami == "0")
         {
             return true;
         }
@@ -92,5 +145,15 @@ public class DataHolder : MonoBehaviour
                 break;
         }
         return false;
+    }
+    RootObject getAddress(double lat,double lon)
+    {
+        WebClient webClient = new WebClient();
+        webClient.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+        webClient.Headers.Add("Referer", "http://www.microsoft.com");
+        var jsonData = webClient.DownloadData("http://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+lon);
+        DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(RootObject));
+        RootObject rootObject = (RootObject)ser.ReadObject(new MemoryStream(jsonData));
+        return rootObject;
     }
 }
