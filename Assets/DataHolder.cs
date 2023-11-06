@@ -1,7 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using EasyUI.Dialogs;
 using UnityEngine.Rendering;
+using System;
+using System.IO;
+using System.Net;
+using System.Runtime.Serialization.Json;
+
 
 public class DataHolder : MonoBehaviour
 {
@@ -29,17 +36,39 @@ public class DataHolder : MonoBehaviour
     int year;
     float mag;
 
+    string popUpTitle;
+    string popUpMessage;
+
     private void Start()
     {
         reader = DataReader.Instance;
         year = reader.ConvertToInt(reader.GetYearFromDate(date));
         mag = reader.ConvertToFloat(magnitude);
-    }
 
+        
+        popUpTitle = title;
+        string[] locationFromTitle = title.Split('-');
+        popUpMessage = "⦿ Location : " + locationFromTitle[1] + System.Environment.NewLine +
+        "⦿ Year : " + year + System.Environment.NewLine +
+        "⦿ Magnitude : " + mag + System.Environment.NewLine +
+         "⦿ Alert : " + (!string.IsNullOrEmpty(alert) ? alert : "N/A") + System.Environment.NewLine +
+           "⦿ Depth : " + depth + System.Environment.NewLine +
+            "⦿ Tsunami : " + (tsunami == "1" ? "yes" : "no");
+
+
+    }
+    private void OnMouseDown() {
+   
+        PopUp.Instance.SetMessage(popUpMessage).Show();
+         
+    }
+    
+    
     public void CheckFilter()
     {
         gameObject.SetActive(CheckYearFilter() && CheckMagnitudeFilter() && CheckAlertFilter() && CheckTsunamiFilter());
     }
+    
 
     bool CheckYearFilter()
     {
@@ -112,4 +141,5 @@ public class DataHolder : MonoBehaviour
         }
         return false;
     }
+    
 }
